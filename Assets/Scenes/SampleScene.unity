@@ -289,13 +289,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 4, y: 4, z: -4}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 4, y: 7.12, z: -4.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1 &1268705704
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +325,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b254982f09bbeb4a89832ea9381af5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chessmanPrefabs:
+  - {fileID: 4653859921670182166, guid: b73d1a96c035b08469157e5727f08541, type: 3}
+  - {fileID: 3447576188811753807, guid: d28b95372ed52fb41bed76cdb77c247d, type: 3}
+  - {fileID: 9212115492980131885, guid: ca83d1a41f4cd2844b236160f3a734a3, type: 3}
+  - {fileID: 695521715362967238, guid: 5eba651dad5f086449c86ecb55efc007, type: 3}
+  - {fileID: 1411435307088815790, guid: c5ea7375248689a42a8ba9b8773495f7, type: 3}
+  - {fileID: 7018264313103175381, guid: bac8462586c8fcb44af44a4ef855f8f7, type: 3}
 --- !u!4 &1268705706
 Transform:
   m_ObjectHideFlags: 0
