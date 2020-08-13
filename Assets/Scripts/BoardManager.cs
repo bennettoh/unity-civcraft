@@ -12,11 +12,11 @@ public class BoardManager : MonoBehaviour
     private int selectionY = -1;
 
     public List<GameObject> chessmanPrefabs;
-    private List<GameObject> activeChessman = new List<GameObject>();
+    private List<GameObject> activeChessman;
 
     private void Start()
     {
-        SpawnChessman(0, Vector3.zero);
+        SpawnAllChessmen();
     }
 
     private void Update()
@@ -81,5 +81,72 @@ public class BoardManager : MonoBehaviour
         GameObject go = Instantiate(chessmanPrefabs[index], position, Quaternion.identity) as GameObject;
         go.transform.SetParent(transform);
         activeChessman.Add(go);
+    }
+
+    private void SpawnAllChessmen()
+    {
+        activeChessman = new List<GameObject>();
+
+        // Spawn the white team
+        // King
+        SpawnChessman(0, GetTileCenter(3, 0));
+
+        // Queen
+        SpawnChessman(1, GetTileCenter(4, 0));
+
+        // Bishops
+        SpawnChessman(2, GetTileCenter(2, 0));
+        SpawnChessman(2, GetTileCenter(5, 0));
+
+        // Knights
+        SpawnChessman(3, GetTileCenter(1, 0));
+        SpawnChessman(3, GetTileCenter(6, 0));
+
+        // Rooks
+        SpawnChessman(4, GetTileCenter(0, 0));
+        SpawnChessman(4, GetTileCenter(7, 0));
+
+        // Pawns
+        for(int i = 0; i < 8; i++)
+        {
+            SpawnChessman(5, GetTileCenter(i, 1));
+        }
+
+
+        // Spawn the black team
+        // King
+        SpawnChessman(0, GetTileCenter(3, 7));
+
+        // Queen
+        SpawnChessman(1, GetTileCenter(4, 7));
+
+        // Bishops
+        SpawnChessman(2, GetTileCenter(2, 7));
+        SpawnChessman(2, GetTileCenter(5, 7));
+
+        // Knights
+        SpawnChessman(3, GetTileCenter(1, 7));
+        SpawnChessman(3, GetTileCenter(6, 7));
+
+        // Rooks
+        SpawnChessman(4, GetTileCenter(0, 7));
+        SpawnChessman(4, GetTileCenter(7, 7));
+
+        // Pawns
+        for (int i = 0; i < 8; i++)
+        {
+            SpawnChessman(5, GetTileCenter(i, 6));
+        }
+
+
+    }
+
+    // returns the coordinate of the center of the tile given its x and y location on grid
+    private Vector3 GetTileCenter(int x, int y)
+    {
+        Vector3 origin = Vector3.zero;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
+        return origin;
     }
 }
