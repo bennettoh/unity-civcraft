@@ -326,12 +326,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chessmanPrefabs:
-  - {fileID: 4653859921670182166, guid: b73d1a96c035b08469157e5727f08541, type: 3}
-  - {fileID: 3447576188811753807, guid: d28b95372ed52fb41bed76cdb77c247d, type: 3}
-  - {fileID: 9212115492980131885, guid: ca83d1a41f4cd2844b236160f3a734a3, type: 3}
-  - {fileID: 695521715362967238, guid: 5eba651dad5f086449c86ecb55efc007, type: 3}
-  - {fileID: 1411435307088815790, guid: c5ea7375248689a42a8ba9b8773495f7, type: 3}
-  - {fileID: 7018264313103175381, guid: bac8462586c8fcb44af44a4ef855f8f7, type: 3}
+  - {fileID: 919132149155446097, guid: f8f09933e2c719f4bab75a2449b5e796, type: 3}
+  - {fileID: 919132149155446097, guid: 9f4d15585f971de488d3a2c418285cde, type: 3}
+  - {fileID: 919132149155446097, guid: 819f444e00a35d547b35ea1ad1cfcfad, type: 3}
+  - {fileID: 919132149155446097, guid: b69581e961cdabf4ba8d938ddf563699, type: 3}
+  - {fileID: 919132149155446097, guid: 0505417b1f965d44283e677fc62389dc, type: 3}
+  - {fileID: 919132149155446097, guid: 4393a49433e808d46b89b5a35dcb770c, type: 3}
 --- !u!4 &1268705706
 Transform:
   m_ObjectHideFlags: 0
