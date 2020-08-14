@@ -338,6 +338,7 @@ MonoBehaviour:
   - {fileID: 8004692708903153329, guid: 08a9c67c293b88540926079516d6876c, type: 3}
   - {fileID: 4311484111094288727, guid: 943822a9f51364a439627e83c01e35c9, type: 3}
   - {fileID: 6879676887946095762, guid: ff526b6f0f2cdae45ba41ee48c402cb2, type: 3}
+  isWhiteTurn: 1
 --- !u!4 &1268705706
 Transform:
   m_ObjectHideFlags: 0
@@ -406,7 +407,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893131340}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
