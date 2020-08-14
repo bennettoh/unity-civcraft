@@ -115,27 +115,27 @@ public class BoardManager : MonoBehaviour
 
         // Spawn the black team
         // King
-        SpawnChessman(0, GetTileCenter(3, 7));
+        SpawnChessman(6, GetTileCenter(3, 7));
 
         // Queen
-        SpawnChessman(1, GetTileCenter(4, 7));
+        SpawnChessman(7, GetTileCenter(4, 7));
 
         // Bishops
-        SpawnChessman(2, GetTileCenter(2, 7));
-        SpawnChessman(2, GetTileCenter(5, 7));
+        SpawnChessman(8, GetTileCenter(2, 7));
+        SpawnChessman(8, GetTileCenter(5, 7));
 
         // Knights
-        SpawnChessman(3, GetTileCenter(1, 7));
-        SpawnChessman(3, GetTileCenter(6, 7));
+        SpawnChessman(9, GetTileCenter(1, 7));
+        SpawnChessman(9, GetTileCenter(6, 7));
 
         // Rooks
-        SpawnChessman(4, GetTileCenter(0, 7));
-        SpawnChessman(4, GetTileCenter(7, 7));
+        SpawnChessman(10, GetTileCenter(0, 7));
+        SpawnChessman(10, GetTileCenter(7, 7));
 
         // Pawns
         for (int i = 0; i < 8; i++)
         {
-            SpawnChessman(5, GetTileCenter(i, 6));
+            SpawnChessman(11, GetTileCenter(i, 6));
         }
 
 

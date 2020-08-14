@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -326,12 +326,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chessmanPrefabs:
-  - {fileID: 919132149155446097, guid: f8f09933e2c719f4bab75a2449b5e796, type: 3}
-  - {fileID: 919132149155446097, guid: 9f4d15585f971de488d3a2c418285cde, type: 3}
-  - {fileID: 919132149155446097, guid: 819f444e00a35d547b35ea1ad1cfcfad, type: 3}
-  - {fileID: 919132149155446097, guid: b69581e961cdabf4ba8d938ddf563699, type: 3}
-  - {fileID: 919132149155446097, guid: 0505417b1f965d44283e677fc62389dc, type: 3}
-  - {fileID: 919132149155446097, guid: 4393a49433e808d46b89b5a35dcb770c, type: 3}
+  - {fileID: 2310859749523558603, guid: b73d1a96c035b08469157e5727f08541, type: 3}
+  - {fileID: 1159548096221973905, guid: d28b95372ed52fb41bed76cdb77c247d, type: 3}
+  - {fileID: 6949840669511629703, guid: f4d1ba6d93201df4daeb2cd772041999, type: 3}
+  - {fileID: 9151835924510815953, guid: 5eba651dad5f086449c86ecb55efc007, type: 3}
+  - {fileID: 681676786220475743, guid: c5ea7375248689a42a8ba9b8773495f7, type: 3}
+  - {fileID: 1859354046384305680, guid: bac8462586c8fcb44af44a4ef855f8f7, type: 3}
+  - {fileID: 8043457537609934613, guid: 1bd5e1db8ccb17243a39940d93e67695, type: 3}
+  - {fileID: 7622567543383786988, guid: 6a546aabead18724fb297f2aab1b00c8, type: 3}
+  - {fileID: 1988741730348875383, guid: 70a847a6da5da2045970cdb47f518fe6, type: 3}
+  - {fileID: 8004692708903153329, guid: 08a9c67c293b88540926079516d6876c, type: 3}
+  - {fileID: 4311484111094288727, guid: 943822a9f51364a439627e83c01e35c9, type: 3}
+  - {fileID: 6879676887946095762, guid: ff526b6f0f2cdae45ba41ee48c402cb2, type: 3}
 --- !u!4 &1268705706
 Transform:
   m_ObjectHideFlags: 0
