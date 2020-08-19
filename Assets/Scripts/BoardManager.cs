@@ -53,13 +53,27 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
-        if (Chessmans[x, y] == null) // check if a chessman exists on the clicked tile
+        if (Chessmans[x, y] == null) // check if a chessman exists on the tile
             return;
 
-        if (Chessmans[x, y].isWhite != isWhiteTurn) // can't move out of turn
+        if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
             return;
 
+        bool hasAtLeastOneMove = false;
         allowedMoves = Chessmans[x, y].PossibleMove();
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                if (allowedMoves[i, j])
+                {
+                    hasAtLeastOneMove = true;
+                }
+            }
+        }
+        if (!hasAtLeastOneMove)
+            return;
+
         selectedChessman = Chessmans[x, y]; // if all tests pass, chessman at the location gets added to the selection
         BoardHighlights.Instance.HighlightAllowedMoves(allowedMoves);
     }
@@ -75,7 +89,7 @@ public class BoardManager : MonoBehaviour
                 // if it was the king
                 if(c.GetType() == typeof(King))
                 {
-                    // end game
+                    EndGame();
                     return;
                 }
 
@@ -219,5 +233,24 @@ public class BoardManager : MonoBehaviour
         origin.x += (TILE_SIZE * x) + TILE_OFFSET;
         origin.z += (TILE_SIZE * y) + TILE_OFFSET;
         return origin;
+    }
+
+    private void EndGame()
+    {
+        if (isWhiteTurn)
+        {
+            Debug.Log("White team wins");
+        }
+        else
+        {
+            Debug.Log("White team wins");
+        }
+
+        foreach (GameObject go in activeChessman)
+            Destroy(go);
+
+        isWhiteTurn = true;
+        BoardHighlights.Instance.HideHighlights();
+        SpawnAllChessmen();
     }
 }

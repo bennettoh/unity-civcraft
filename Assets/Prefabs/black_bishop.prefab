@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1212240971790607565}
   - component: {fileID: -1121673725854193682}
-  - component: {fileID: 6152813380729277110}
   m_Layer: 0
   m_Name: black_bishop
   m_TagString: Untagged
@@ -34,19 +33,6 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-1121673725854193682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988741730348875383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 256ba2dde169fb946bf8eced7af0f998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isWhite: 0
---- !u!114 &6152813380729277110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

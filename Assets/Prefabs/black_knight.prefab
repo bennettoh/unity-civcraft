@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7232131427228496907}
   - component: {fileID: 8482878279191866436}
-  - component: {fileID: 2735251940992032004}
   m_Layer: 0
   m_Name: black_knight
   m_TagString: Untagged
@@ -113,19 +112,6 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8482878279191866436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004692708903153329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7c9e8e0764609841a449bd003ff33c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isWhite: 0
---- !u!114 &2735251940992032004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
