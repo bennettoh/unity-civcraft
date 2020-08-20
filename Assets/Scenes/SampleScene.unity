@@ -171,7 +171,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c136b4c321e074647a4f17b47417b360, type: 2}
+  - {fileID: 2100000, guid: fc92f66a34076604e9275e7c39dd34c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,8 +208,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584742519}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -0.53, z: 4}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalPosition: {x: 4, y: -0.051, z: 4}
+  m_LocalScale: {x: 8, y: 0.1, z: 8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -432,6 +432,7 @@ MonoBehaviour:
   - {fileID: 8004692708903153329, guid: 08a9c67c293b88540926079516d6876c, type: 3}
   - {fileID: 4311484111094288727, guid: 943822a9f51364a439627e83c01e35c9, type: 3}
   - {fileID: 6879676887946095762, guid: ff526b6f0f2cdae45ba41ee48c402cb2, type: 3}
+  selectedMat: {fileID: 2100000, guid: 372b45ca3d4ce3b4791062a73beadc6c, type: 2}
   isWhiteTurn: 1
 --- !u!4 &1268705706
 Transform:

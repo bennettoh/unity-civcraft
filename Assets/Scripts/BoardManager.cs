@@ -20,6 +20,9 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> chessmanPrefabs;
     private List<GameObject> activeChessman = new List<GameObject>();
 
+    private Material previousMat;
+    public Material selectedMat;
+
     public bool isWhiteTurn = true;
 
     private void Start()
@@ -31,7 +34,7 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         UpdateSelection();
-        DrawChessboard();
+        //DrawChessboard();
 
         if (Input.GetMouseButtonDown (0)) {
             // Debug.Log(selectionX + " " + selectionY);
@@ -75,6 +78,9 @@ public class BoardManager : MonoBehaviour
             return;
 
         selectedChessman = Chessmans[x, y]; // if all tests pass, chessman at the location gets added to the selection
+        previousMat = selectedChessman.GetComponentInChildren<MeshRenderer>().material;
+        selectedMat.mainTexture = previousMat.mainTexture;
+        selectedChessman.GetComponentInChildren<MeshRenderer>().material = selectedMat;
         BoardHighlights.Instance.HighlightAllowedMoves(allowedMoves);
     }
 
@@ -105,6 +111,7 @@ public class BoardManager : MonoBehaviour
             isWhiteTurn = !isWhiteTurn;
         }
 
+        selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
         BoardHighlights.Instance.HideHighlights();
         selectedChessman = null; // illegal move de-selects the piece
     }
