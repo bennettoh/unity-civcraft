@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour
     private Material previousMat;
     public Material selectedMat;
 
-    public bool isWhiteTurn = true;
+    public bool isWhiteTurn;
 
     private void Start()
     {
@@ -33,6 +33,7 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
+        isWhiteTurn = GameManager.Instance.isWhiteTurn;
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
