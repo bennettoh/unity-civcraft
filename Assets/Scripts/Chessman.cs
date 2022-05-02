@@ -7,6 +7,7 @@ public abstract class Chessman : MonoBehaviour
     public int CurrentY { set; get; }
     public bool isWhite;
     private int moves = 1;
+    public int production;
 
     public void SetPosition(int x, int y)
     {
@@ -32,5 +33,17 @@ public abstract class Chessman : MonoBehaviour
     public void resetMoves()
     {
         this.moves = 1;
+    }
+
+    public void produce()
+    {
+        if (this.isWhite)
+        {
+            GameManager.Instance.whiteResource += production;
+        }
+        else
+        {
+            GameManager.Instance.blackResource += production;
+        }
     }
 }
