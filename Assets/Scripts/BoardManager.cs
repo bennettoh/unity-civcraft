@@ -33,11 +33,10 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateSelection();
-        //DrawChessboard();
-
-        if (Input.GetMouseButtonDown (0)) {
-            // Debug.Log(selectionX + " " + selectionY);
+        if (Input.GetMouseButtonDown(0))
+        {
+            UpdateSelection();
+            Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChessman == null)
@@ -57,16 +56,23 @@ public class BoardManager : MonoBehaviour
     private void SelectChessman(int x, int y)
     {
         if (Chessmans[x, y] == null) // check if a chessman exists on the tile
+        {
+            GameManager.Instance.intent = "tile";
             return;
+        }
+        else
+        {
+            GameManager.Instance.intent = "";
+        }
 
         if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
             return;
 
         bool hasAtLeastOneMove = false;
         allowedMoves = Chessmans[x, y].PossibleMove();
-        for(int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)
         {
-            for(int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; j++)
             {
                 if (allowedMoves[i, j])
                 {
@@ -86,14 +92,14 @@ public class BoardManager : MonoBehaviour
 
     private void MoveChessman(int x, int y)
     {
-        if (allowedMoves[x,y])
+        if (allowedMoves[x, y])
         {
             // capture the enemy piece
             Chessman c = Chessmans[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
                 // if it was the king
-                if(c.GetType() == typeof(King))
+                if (c.GetType() == typeof(King))
                 {
                     EndGame();
                     return;
@@ -119,7 +125,7 @@ public class BoardManager : MonoBehaviour
     private void UpdateSelection()
     {
         if (!Camera.main) return;
-        
+
         RaycastHit hit;
 
         // check if mouse cursor intersects with the plane and round up the decimal to grid number
@@ -128,42 +134,6 @@ public class BoardManager : MonoBehaviour
             // remove decimal
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
-        }
-        else
-        {
-            selectionX = -1;
-            selectionY = -1;
-        }
-    }
-
-    private void DrawChessboard()
-    {
-        Vector3 widthLine = Vector3.right * 8;
-        Vector3 heightLine = Vector3.forward * 8;
-
-        for(int i = 0; i <= 8; i++)
-        {
-            Vector3 start = Vector3.forward * i;
-            Debug.DrawLine(start, start + widthLine);
-            for (int j = 0; j <= 8; j++)
-            {
-                Vector3 height = Vector3.right * j;
-                Debug.DrawLine(height, height + heightLine);
-            }
-        }
-
-        // 'x' marks the grid where cursor is on
-        if(selectionX >= 0 && selectionY >= 0)
-        {
-            Debug.DrawLine(
-                Vector3.forward * selectionY + Vector3.right * selectionX,
-                Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1)
-                );
-
-            Debug.DrawLine(
-                Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
-                Vector3.forward * selectionY + Vector3.right * (selectionX + 1)
-                );
         }
     }
 
@@ -179,58 +149,23 @@ public class BoardManager : MonoBehaviour
 
     private void SpawnAllChessmen()
     {
-        // Spawn the white team
-        // King
-        SpawnChessman(0, 3, 0);
+        SpawnChessman(5, 1, 1);
+        SpawnChessman(11, 6, 6);
+    }
 
-        // Queen
-        SpawnChessman(1, 4, 0);
-
-        // Bishops
-        SpawnChessman(2, 2, 0);
-        SpawnChessman(2, 5, 0);
-
-        // Knights
-        SpawnChessman(3, 1, 0);
-        SpawnChessman(3, 6, 0);
-
-        // Rooks
-        SpawnChessman(4, 0, 0);
-        SpawnChessman(4, 7, 0);
-
-        // Pawns
-        for(int i = 0; i < 8; i++)
+    public void Spawn()
+    {
+        GameManager.Instance.intent = "";
+        GameManager.Instance.resource -= 5;
+        if (isWhiteTurn)
         {
-            SpawnChessman(5, i, 1);
+            SpawnChessman(5, selectionX, selectionY);
         }
-
-
-        // Spawn the black team
-        // King
-        SpawnChessman(6, 4, 7);
-
-        // Queen
-        SpawnChessman(7, 3, 7);
-
-        // Bishops
-        SpawnChessman(8, 2, 7);
-        SpawnChessman(8, 5, 7);
-
-        // Knights
-        SpawnChessman(9, 1, 7);
-        SpawnChessman(9, 6, 7);
-
-        // Rooks
-        SpawnChessman(10, 0, 7);
-        SpawnChessman(10, 7, 7);
-
-        // Pawns
-        for (int i = 0; i < 8; i++)
+        else
         {
-            SpawnChessman(11, i, 6);
+            SpawnChessman(11, selectionX, selectionY);
         }
-
-
+        isWhiteTurn = !isWhiteTurn;
     }
 
     // returns the coordinate of the center of the tile given its x and y location on grid
