@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour
     private Material previousMat;
     public Material selectedMat;
 
-    public bool isWhiteTurn = true;
+    public bool isWhiteTurn;
 
     private void Start()
     {
@@ -33,10 +33,11 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
+        isWhiteTurn = GameManager.Instance.isWhiteTurn;
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
-            Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
+            // Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChessman == null)
@@ -55,6 +56,8 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
+
+        Debug.Log(x + " " + y);
         if (Chessmans[x, y] == null) // check if a chessman exists on the tile
         {
             GameManager.Instance.intent = "tile";
@@ -182,18 +185,35 @@ public class BoardManager : MonoBehaviour
         SpawnAllChessmen();
     }
 
+    public void Build()
+    {
+        GameManager.Instance.intent = "";
+        if (isWhiteTurn)
+        {
+            GameManager.Instance.whiteResource -= 3;
+            SpawnChessman(0, selectionX, selectionY);
+        }
+        else
+        {
+            GameManager.Instance.blackResource -= 3;
+            SpawnChessman(6, selectionX, selectionY);
+        }
+    }
+
     public void Spawn()
     {
         GameManager.Instance.intent = "";
-        GameManager.Instance.resource -= 5;
         if (isWhiteTurn)
         {
+            GameManager.Instance.whiteResource -= 1;
             SpawnChessman(5, selectionX, selectionY);
         }
         else
         {
+            GameManager.Instance.blackResource -= 1;
             SpawnChessman(11, selectionX, selectionY);
         }
+        Deselect();
     }
 
     public void EndTurn()
@@ -204,8 +224,16 @@ public class BoardManager : MonoBehaviour
             if (unit.isWhite == isWhiteTurn)
             {
                 unit.resetMoves();
+                unit.produce();
             }
         }
-        isWhiteTurn = !isWhiteTurn;
+        GameManager.Instance.endTurn();
+    }
+
+    private void Deselect()
+    {
+        Debug.Log("reset");
+        this.selectionX = -1;
+        this.selectionY = -1;
     }
 }
