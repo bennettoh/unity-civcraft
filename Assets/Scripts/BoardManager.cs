@@ -105,6 +105,7 @@ public class BoardManager : MonoBehaviour
                     return;
                 }
 
+                // remove enemy piece from the game
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
@@ -113,8 +114,8 @@ public class BoardManager : MonoBehaviour
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
             selectedChessman.SetPosition(x, y);
+            selectedChessman.useMove();
             Chessmans[x, y] = selectedChessman;
-            isWhiteTurn = !isWhiteTurn;
         }
 
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
@@ -153,21 +154,6 @@ public class BoardManager : MonoBehaviour
         SpawnChessman(11, 6, 6);
     }
 
-    public void Spawn()
-    {
-        GameManager.Instance.intent = "";
-        GameManager.Instance.resource -= 5;
-        if (isWhiteTurn)
-        {
-            SpawnChessman(5, selectionX, selectionY);
-        }
-        else
-        {
-            SpawnChessman(11, selectionX, selectionY);
-        }
-        isWhiteTurn = !isWhiteTurn;
-    }
-
     // returns the coordinate of the center of the tile given its x and y location on grid
     private Vector3 GetTileCenter(int x, int y)
     {
@@ -194,5 +180,32 @@ public class BoardManager : MonoBehaviour
         isWhiteTurn = true;
         BoardHighlights.Instance.HideHighlights();
         SpawnAllChessmen();
+    }
+
+    public void Spawn()
+    {
+        GameManager.Instance.intent = "";
+        GameManager.Instance.resource -= 5;
+        if (isWhiteTurn)
+        {
+            SpawnChessman(5, selectionX, selectionY);
+        }
+        else
+        {
+            SpawnChessman(11, selectionX, selectionY);
+        }
+    }
+
+    public void EndTurn()
+    {
+        foreach (GameObject go in activeChessman)
+        {
+            var unit = go.GetComponent<Chessman>();
+            if (unit.isWhite == isWhiteTurn)
+            {
+                unit.resetMoves();
+            }
+        }
+        isWhiteTurn = !isWhiteTurn;
     }
 }
