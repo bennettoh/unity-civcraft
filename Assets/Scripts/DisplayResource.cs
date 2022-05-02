@@ -7,6 +7,13 @@ public class DisplayResource : MonoBehaviour
 
     private void Update()
     {
-        textRef.text = "Resource: " + GameManager.Instance.resource;
+        if (textRef.tag == "White")
+        {
+            textRef.text = "White resource: " + GameManager.Instance.whiteResource;
+        }
+        else
+        {
+            textRef.text = "Black resource: " + GameManager.Instance.blackResource;
+        }
     }
 }

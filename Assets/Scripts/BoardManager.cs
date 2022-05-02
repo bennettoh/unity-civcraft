@@ -23,7 +23,7 @@ public class BoardManager : MonoBehaviour
     private Material previousMat;
     public Material selectedMat;
 
-    public bool isWhiteTurn = true;
+    public bool isWhiteTurn;
 
     private void Start()
     {
@@ -33,10 +33,11 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
+        isWhiteTurn = GameManager.Instance.isWhiteTurn;
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
-            Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
+            // Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChessman == null)
@@ -55,6 +56,8 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
+
+        Debug.Log(x + " " + y);
         if (Chessmans[x, y] == null) // check if a chessman exists on the tile
         {
             GameManager.Instance.intent = "tile";
@@ -105,6 +108,7 @@ public class BoardManager : MonoBehaviour
                     return;
                 }
 
+                // remove enemy piece from the game
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
@@ -113,8 +117,8 @@ public class BoardManager : MonoBehaviour
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
             selectedChessman.SetPosition(x, y);
+            selectedChessman.useMove();
             Chessmans[x, y] = selectedChessman;
-            isWhiteTurn = !isWhiteTurn;
         }
 
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
@@ -153,21 +157,6 @@ public class BoardManager : MonoBehaviour
         SpawnChessman(11, 6, 6);
     }
 
-    public void Spawn()
-    {
-        GameManager.Instance.intent = "";
-        GameManager.Instance.resource -= 5;
-        if (isWhiteTurn)
-        {
-            SpawnChessman(5, selectionX, selectionY);
-        }
-        else
-        {
-            SpawnChessman(11, selectionX, selectionY);
-        }
-        isWhiteTurn = !isWhiteTurn;
-    }
-
     // returns the coordinate of the center of the tile given its x and y location on grid
     private Vector3 GetTileCenter(int x, int y)
     {
@@ -194,5 +183,57 @@ public class BoardManager : MonoBehaviour
         isWhiteTurn = true;
         BoardHighlights.Instance.HideHighlights();
         SpawnAllChessmen();
+    }
+
+    public void Build()
+    {
+        GameManager.Instance.intent = "";
+        if (isWhiteTurn)
+        {
+            GameManager.Instance.whiteResource -= 3;
+            SpawnChessman(0, selectionX, selectionY);
+        }
+        else
+        {
+            GameManager.Instance.blackResource -= 3;
+            SpawnChessman(6, selectionX, selectionY);
+        }
+    }
+
+    public void Spawn()
+    {
+        GameManager.Instance.intent = "";
+        if (isWhiteTurn)
+        {
+            GameManager.Instance.whiteResource -= 1;
+            SpawnChessman(5, selectionX, selectionY);
+        }
+        else
+        {
+            GameManager.Instance.blackResource -= 1;
+            SpawnChessman(11, selectionX, selectionY);
+        }
+        Deselect();
+    }
+
+    public void EndTurn()
+    {
+        foreach (GameObject go in activeChessman)
+        {
+            var unit = go.GetComponent<Chessman>();
+            if (unit.isWhite == isWhiteTurn)
+            {
+                unit.resetMoves();
+                unit.produce();
+            }
+        }
+        GameManager.Instance.endTurn();
+    }
+
+    private void Deselect()
+    {
+        Debug.Log("reset");
+        this.selectionX = -1;
+        this.selectionY = -1;
     }
 }

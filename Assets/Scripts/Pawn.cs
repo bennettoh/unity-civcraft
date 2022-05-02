@@ -8,6 +8,11 @@ public class Pawn : Chessman
         bool[,] moveArr = new bool[8, 8];
         (int, int)[] directions = new[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
 
+        if (this.getMoves() == 0)
+        {
+            return moveArr;
+        }
+
         // find valid moves in 4 directions
         for (int i = 0; i < directions.Length; i++)
         {
@@ -20,6 +25,10 @@ public class Pawn : Chessman
             {
                 Chessman unit = BoardManager.Instance.Chessmans[xCheck, yCheck];
                 if (unit == null)
+                {
+                    moveArr[xCheck, yCheck] = true;
+                }
+                else if (unit.isWhite && !isWhite || !unit.isWhite && isWhite)
                 {
                     moveArr[xCheck, yCheck] = true;
                 }
