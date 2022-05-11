@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public int WHITE_BASE_ID = 0;
+    public int BLACK_BASE_ID = 6;
+
+    public int WHITE_UNIT_ID = 5;
+    public int BLACK_UNIT_ID = 11;
+
+    public int WHITE_START_ROW = 1;
+    public int WHITE_START_COL = 1;
+    public int BLACK_START_ROW = 6;
+    public int BLACK_START_COL = 6;
+
     public static BoardManager Instance { set; get; }
     private bool[,] allowedMoves { get; set; }
 
@@ -153,8 +164,8 @@ public class BoardManager : MonoBehaviour
 
     private void SpawnAllChessmen()
     {
-        SpawnChessman(0, 1, 1);
-        SpawnChessman(6, 6, 6);
+        SpawnChessman(WHITE_BASE_ID, WHITE_START_ROW, WHITE_START_COL);
+        SpawnChessman(BLACK_BASE_ID, BLACK_START_ROW, BLACK_START_COL);
     }
 
     // returns the coordinate of the center of the tile given its x and y location on grid
@@ -191,12 +202,12 @@ public class BoardManager : MonoBehaviour
         if (isWhiteTurn)
         {
             GameManager.Instance.whiteResource -= 3;
-            SpawnChessman(0, selectionX, selectionY);
+            SpawnChessman(WHITE_BASE_ID, selectionX, selectionY);
         }
         else
         {
             GameManager.Instance.blackResource -= 3;
-            SpawnChessman(6, selectionX, selectionY);
+            SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
         }
     }
 
@@ -206,12 +217,12 @@ public class BoardManager : MonoBehaviour
         if (isWhiteTurn)
         {
             GameManager.Instance.whiteResource -= 1;
-            SpawnChessman(5, selectionX, selectionY);
+            SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
         }
         else
         {
             GameManager.Instance.blackResource -= 1;
-            SpawnChessman(11, selectionX, selectionY);
+            SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
         }
         Deselect();
     }
