@@ -153,8 +153,8 @@ public class BoardManager : MonoBehaviour
 
     private void SpawnAllChessmen()
     {
-        SpawnChessman(5, 1, 1);
-        SpawnChessman(11, 6, 6);
+        SpawnChessman(0, 1, 1);
+        SpawnChessman(6, 6, 6);
     }
 
     // returns the coordinate of the center of the tile given its x and y location on grid
