@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public int WHITE_BASE_ID = 0;
-    public int BLACK_BASE_ID = 6;
+    public const int WHITE_BASE_ID = 0;
+    public const int BLACK_BASE_ID = 6;
 
-    public int WHITE_UNIT_ID = 5;
-    public int BLACK_UNIT_ID = 11;
+    public const int WHITE_UNIT_ID = 5;
+    public const int BLACK_UNIT_ID = 11;
 
-    public int WHITE_START_ROW = 1;
-    public int WHITE_START_COL = 1;
-    public int BLACK_START_ROW = 6;
-    public int BLACK_START_COL = 6;
+    public const int WHITE_START_ROW = 1;
+    public const int WHITE_START_COL = 1;
+    public const int BLACK_START_ROW = 6;
+    public const int BLACK_START_COL = 6;
 
-    public int BASE_COST = 3;
-    public int UNIT_COST = 1;
+    public const int BASE_COST = 3;
+    public const int UNIT_COST = 1;
 
     public static BoardManager Instance { set; get; }
     private bool[,] allowedMoves { get; set; }
@@ -42,7 +42,7 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
-        SpawnAllChessmen();
+        InitializeBoard();
     }
 
     private void Update()
@@ -66,6 +66,19 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    // A method to set up the beginning conditions of the board,
+    // for either starting to re-starting a game.
+    private void InitializeBoard() {
+
+        GameManager.Instance.whiteResource = GameManager.WHITE_START_RESOURCE;
+        GameManager.Instance.blackResource = GameManager.BLACK_START_RESOURCE;
+        
+        SpawnAllChessmen();
+
+        GameManager.Instance.isWhiteTurn = true;
+
     }
 
     private void SelectChessman(int x, int y)
@@ -188,15 +201,17 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("White team wins");
+            Debug.Log("Black team wins");
         }
 
         foreach (GameObject go in activeChessman)
             Destroy(go);
 
-        isWhiteTurn = true;
+        activeChessman.Clear(); // safe to clear, after destroying contents
+
         BoardHighlights.Instance.HideHighlights();
-        SpawnAllChessmen();
+
+        InitializeBoard(); // re-initialize the board state
     }
 
     public void Build()
@@ -212,7 +227,11 @@ public class BoardManager : MonoBehaviour
             GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
         }
-        //else {}
+        else {
+            Debug.Log("Not enough resources to build");
+        }
+
+        // not important to Deselect, since buildings can't move
     }
 
     public void Spawn()
@@ -228,9 +247,14 @@ public class BoardManager : MonoBehaviour
             GameManager.Instance.blackResource -= UNIT_COST;
             SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
         }
-        //else {}
-        
-        //Deselect();
+        else {
+            Debug.Log("Not enough resources to spawn");
+        }
+
+        Deselect();
+        // If not Deselected, the unit's position will be the last selection,
+        // and ending the turn without moving will give the opponent the choice
+        // to move the player's piece
     }
 
     public void EndTurn()
@@ -245,6 +269,7 @@ public class BoardManager : MonoBehaviour
             }
         }
         GameManager.Instance.endTurn();
+        Deselect(); // make sure no square is selected at beginning of turn
     }
 
     private void Deselect()
