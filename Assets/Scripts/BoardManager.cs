@@ -15,6 +15,9 @@ public class BoardManager : MonoBehaviour
     public int BLACK_START_ROW = 6;
     public int BLACK_START_COL = 6;
 
+    public int BASE_COST = 3;
+    public int UNIT_COST = 1;
+
     public static BoardManager Instance { set; get; }
     private bool[,] allowedMoves { get; set; }
 
@@ -199,32 +202,35 @@ public class BoardManager : MonoBehaviour
     public void Build()
     {
         GameManager.Instance.intent = "";
-        if (isWhiteTurn)
+        if (isWhiteTurn && GameManager.Instance.whiteResource >= BASE_COST)
         {
-            GameManager.Instance.whiteResource -= 3;
+            GameManager.Instance.whiteResource -= BASE_COST;
             SpawnChessman(WHITE_BASE_ID, selectionX, selectionY);
         }
-        else
+        else if (!isWhiteTurn && GameManager.Instance.blackResource >= BASE_COST)
         {
-            GameManager.Instance.blackResource -= 3;
+            GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
         }
+        //else {}
     }
 
     public void Spawn()
     {
         GameManager.Instance.intent = "";
-        if (isWhiteTurn)
+        if (isWhiteTurn && GameManager.Instance.whiteResource >= UNIT_COST)
         {
-            GameManager.Instance.whiteResource -= 1;
+            GameManager.Instance.whiteResource -= UNIT_COST;
             SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
         }
-        else
+        else if (!isWhiteTurn && GameManager.Instance.blackResource >= UNIT_COST)
         {
-            GameManager.Instance.blackResource -= 1;
+            GameManager.Instance.blackResource -= UNIT_COST;
             SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
         }
-        Deselect();
+        //else {}
+        
+        //Deselect();
     }
 
     public void EndTurn()
