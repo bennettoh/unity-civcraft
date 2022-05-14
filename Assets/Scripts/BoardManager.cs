@@ -99,11 +99,12 @@ public class BoardManager : MonoBehaviour
 
     // A method to set up the beginning conditions of the board,
     // for either starting to re-starting a game.
-    private void InitializeBoard() {
+    private void InitializeBoard()
+    {
 
         GameManager.Instance.whiteResource = GameManager.WHITE_START_RESOURCE;
         GameManager.Instance.blackResource = GameManager.BLACK_START_RESOURCE;
-        
+
         SpawnChessman(WHITE_BASE_ID, WHITE_START_ROW, WHITE_START_COL);
         SpawnChessman(BLACK_BASE_ID, BLACK_START_ROW, BLACK_START_COL);
 
@@ -115,14 +116,15 @@ public class BoardManager : MonoBehaviour
     {
 
         Debug.Log(x + " " + y);
-        if (Chessmans[x, y] == null) // check if a chessman exists on the tile
+        Chessman currentUnit = Chessmans[x, y];
+        if (currentUnit == null) // check if a chessman exists on the tile
         {
             GameManager.Instance.intent = "tile";
             return;
         }
         else
         {
-            GameManager.Instance.intent = "";
+            GameManager.Instance.intent = currentUnit.moveType;
         }
 
         if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
@@ -154,21 +156,28 @@ public class BoardManager : MonoBehaviour
     {
         if (allowedMoves[x, y])
         {
-            // capture the enemy piece
-            Chessman c = Chessmans[x, y];
-            if (c != null && c.isWhite != isWhiteTurn)
+            if (GameManager.Instance.intent == "spawn")
             {
-                // remove enemy piece from the game
-                activeChessman.Remove(c.gameObject);
-                Destroy(c.gameObject);
+                Spawn();
             }
+            else
+            {
+                // capture the enemy piece
+                Chessman c = Chessmans[x, y];
+                if (c != null && c.isWhite != isWhiteTurn)
+                {
+                    // remove enemy piece from the game
+                    activeChessman.Remove(c.gameObject);
+                    Destroy(c.gameObject);
+                }
 
-            // legal move
-            Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
-            selectedChessman.transform.position = GetTileCenter(x, y);
-            selectedChessman.SetPosition(x, y);
-            selectedChessman.useMove();
-            Chessmans[x, y] = selectedChessman;
+                // legal move
+                Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
+                selectedChessman.transform.position = GetTileCenter(x, y);
+                selectedChessman.SetPosition(x, y);
+                selectedChessman.useMove();
+                Chessmans[x, y] = selectedChessman;
+            }
         }
 
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
@@ -244,7 +253,8 @@ public class BoardManager : MonoBehaviour
             GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
         }
-        else {
+        else
+        {
             Debug.Log("Not enough resources to build");
         }
 
@@ -264,7 +274,8 @@ public class BoardManager : MonoBehaviour
             GameManager.Instance.blackResource -= UNIT_COST;
             SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
         }
-        else {
+        else
+        {
             Debug.Log("Not enough resources to spawn");
         }
 

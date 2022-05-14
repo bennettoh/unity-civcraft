@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class Pawn : Chessman
 {
+    public Pawn()
+    {
+        this.moveType = "";
+    }
     public override bool[,] PossibleMove()
     {
         bool[,] moveArr = new bool[8, 8];
