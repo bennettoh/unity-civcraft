@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour
 
     public static BoardManager Instance { set; get; }
     private bool[,] allowedMoves { get; set; }
+    private bool[,] buildableTiles = new bool[8, 8];
 
     public Chessman[,] Chessmans { set; get; } = new Chessman[8, 8];
     private Chessman selectedChessman;
@@ -38,6 +39,7 @@ public class BoardManager : MonoBehaviour
     public Material selectedMat;
 
     public bool isWhiteTurn;
+    (int, int)[] adjacentCoordinates = new[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
 
     private void Start()
     {
@@ -54,6 +56,11 @@ public class BoardManager : MonoBehaviour
             // Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
+                if (GameManager.Instance.intent == "spawn")
+                {
+                    Spawn();
+                    return;
+                }
                 if (selectedChessman == null)
                 {
                     // if no chessman is currently selected, select the chessman on the current grid coordinate
@@ -70,11 +77,11 @@ public class BoardManager : MonoBehaviour
 
     // A method to set up the beginning conditions of the board,
     // for either starting to re-starting a game.
-    private void InitializeBoard() {
-
+    private void InitializeBoard()
+    {
         GameManager.Instance.whiteResource = GameManager.WHITE_START_RESOURCE;
         GameManager.Instance.blackResource = GameManager.BLACK_START_RESOURCE;
-        
+
         SpawnChessman(WHITE_BASE_ID, WHITE_START_ROW, WHITE_START_COL);
         SpawnChessman(BLACK_BASE_ID, BLACK_START_ROW, BLACK_START_COL);
 
@@ -97,7 +104,9 @@ public class BoardManager : MonoBehaviour
         }
 
         if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
+        {
             return;
+        }
 
         bool hasAtLeastOneMove = false;
         allowedMoves = Chessmans[x, y].PossibleMove();
@@ -150,12 +159,13 @@ public class BoardManager : MonoBehaviour
         }
 
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
-        BoardHighlights.Instance.HideHighlights();
         selectedChessman = null; // illegal move de-selects the piece
     }
 
     private void UpdateSelection()
     {
+        BoardHighlights.Instance.HideHighlights();
+
         if (!Camera.main) return;
 
         RaycastHit hit;
@@ -209,6 +219,34 @@ public class BoardManager : MonoBehaviour
         InitializeBoard(); // re-initialize the board state
     }
 
+    public void ShowSpawnableTiles()
+    {
+        bool[,] validTiles = new bool[8, 8];
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                Chessman currentChessman = Chessmans[i, j];
+                if (currentChessman != null && currentChessman.GetType() == typeof(King) && currentChessman.isWhite == isWhiteTurn) // find current player's production buildings
+                {
+                    foreach ((int, int) coord in adjacentCoordinates) // select empty adjacent tiles
+                    {
+                        int y = i + coord.Item1;
+                        int x = j + coord.Item2;
+                        Debug.Log(x + " " + y);
+                        if (Chessmans[y, x] == null)
+                        {
+                            validTiles[y, x] = true;
+                        }
+                    }
+                }
+            }
+        }
+        GameManager.Instance.intent = "spawn";
+        buildableTiles = validTiles;
+        BoardHighlights.Instance.HighlightAllowedMoves(validTiles);
+    }
+
     public void Build()
     {
         GameManager.Instance.intent = "";
@@ -222,7 +260,8 @@ public class BoardManager : MonoBehaviour
             GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
         }
-        else {
+        else
+        {
             Debug.Log("Not enough resources to build");
         }
 
@@ -231,19 +270,22 @@ public class BoardManager : MonoBehaviour
 
     public void Spawn()
     {
-        GameManager.Instance.intent = "";
-        if (isWhiteTurn && GameManager.Instance.whiteResource >= UNIT_COST)
+        if (buildableTiles[selectionX, selectionY] == true) // check if you can build in the current location
         {
-            GameManager.Instance.whiteResource -= UNIT_COST;
-            SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
-        }
-        else if (!isWhiteTurn && GameManager.Instance.blackResource >= UNIT_COST)
-        {
-            GameManager.Instance.blackResource -= UNIT_COST;
-            SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
-        }
-        else {
-            Debug.Log("Not enough resources to spawn");
+            if (isWhiteTurn && GameManager.Instance.whiteResource >= UNIT_COST)
+            {
+                GameManager.Instance.whiteResource -= UNIT_COST;
+                SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
+            }
+            else if (!isWhiteTurn && GameManager.Instance.blackResource >= UNIT_COST)
+            {
+                GameManager.Instance.blackResource -= UNIT_COST;
+                SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
+            }
+            else
+            {
+                Debug.Log("Not enough resources to spawn");
+            }
         }
 
         Deselect();
@@ -270,6 +312,8 @@ public class BoardManager : MonoBehaviour
     private void Deselect()
     {
         Debug.Log("reset");
+        GameManager.Instance.intent = "";
+
         this.selectionX = -1;
         this.selectionY = -1;
     }
