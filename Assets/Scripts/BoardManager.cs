@@ -39,6 +39,9 @@ public class BoardManager : MonoBehaviour
 
     public bool isWhiteTurn;
 
+    public bool whiteBaseExists;
+    public bool blackBaseExists;
+
     private void Start()
     {
         Instance = this;
@@ -48,6 +51,32 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         isWhiteTurn = GameManager.Instance.isWhiteTurn;
+
+        // check if the game is over
+        whiteBaseExists = false;
+        blackBaseExists = false;
+        foreach (GameObject go in activeChessman)
+        {
+            var unit = go.GetComponent<Chessman>();
+            if (unit.GetType() == typeof(King))
+            {
+                //Debug.Log("Found a king.");
+                if (unit.isWhite) whiteBaseExists = true;
+                else blackBaseExists = true;
+            }
+        }
+        if (!whiteBaseExists)
+        {
+            // no more white bases, black wins
+            EndGame(false);
+        }
+        else if (!blackBaseExists)
+        {
+            // no more black bases, white wins
+            EndGame(true);
+        }
+
+        // if the game did not end, carry on
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
@@ -129,13 +158,6 @@ public class BoardManager : MonoBehaviour
             Chessman c = Chessmans[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
-                // if it was the king
-                if (c.GetType() == typeof(King))
-                {
-                    EndGame();
-                    return;
-                }
-
                 // remove enemy piece from the game
                 activeChessman.Remove(c.gameObject);
                 Destroy(c.gameObject);
@@ -188,9 +210,9 @@ public class BoardManager : MonoBehaviour
         return origin;
     }
 
-    private void EndGame()
+    private void EndGame(bool whiteWon)
     {
-        if (isWhiteTurn)
+        if (whiteWon)
         {
             Debug.Log("White team wins");
         }
