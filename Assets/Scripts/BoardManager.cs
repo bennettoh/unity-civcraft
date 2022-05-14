@@ -75,7 +75,8 @@ public class BoardManager : MonoBehaviour
         GameManager.Instance.whiteResource = GameManager.WHITE_START_RESOURCE;
         GameManager.Instance.blackResource = GameManager.BLACK_START_RESOURCE;
         
-        SpawnAllChessmen();
+        SpawnChessman(WHITE_BASE_ID, WHITE_START_ROW, WHITE_START_COL);
+        SpawnChessman(BLACK_BASE_ID, BLACK_START_ROW, BLACK_START_COL);
 
         GameManager.Instance.isWhiteTurn = true;
 
@@ -176,12 +177,6 @@ public class BoardManager : MonoBehaviour
         Chessmans[x, y] = go.GetComponent<Chessman>();
         Chessmans[x, y].SetPosition(x, y);
         activeChessman.Add(go);
-    }
-
-    private void SpawnAllChessmen()
-    {
-        SpawnChessman(WHITE_BASE_ID, WHITE_START_ROW, WHITE_START_COL);
-        SpawnChessman(BLACK_BASE_ID, BLACK_START_ROW, BLACK_START_COL);
     }
 
     // returns the coordinate of the center of the tile given its x and y location on grid
