@@ -4,8 +4,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public float whiteResource = 10;
-    public float blackResource = 10;
+    public const int WHITE_START_RESOURCE = 10;
+    public const int BLACK_START_RESOURCE = 10;
+
+    public int whiteResource;
+    public int blackResource;
     public string intent;
     public bool isWhiteTurn = true;
 
