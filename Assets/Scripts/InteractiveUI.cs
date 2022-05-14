@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class InteractiveUI : MonoBehaviour
 {
-    [SerializeField] GameObject SpawnButton;
     [SerializeField] GameObject BuildButton;
 
     // Update is called once per frame
@@ -23,13 +22,10 @@ public class InteractiveUI : MonoBehaviour
         if (visible)
         {
             BuildButton.SetActive(true);
-            SpawnButton.SetActive(true);
         }
         else
         {
             BuildButton.SetActive(false);
-            SpawnButton.SetActive(false);
         }
-
     }
 }

@@ -8,6 +8,7 @@ public abstract class Chessman : MonoBehaviour
     public bool isWhite;
     private int moves = 1;
     public int production;
+    public string moveType;
 
     public void SetPosition(int x, int y)
     {
