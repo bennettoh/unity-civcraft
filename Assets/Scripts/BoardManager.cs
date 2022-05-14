@@ -170,14 +170,14 @@ public class BoardManager : MonoBehaviour
                     activeChessman.Remove(c.gameObject);
                     Destroy(c.gameObject);
                 }
-            }
 
-            // legal move
-            Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
-            selectedChessman.transform.position = GetTileCenter(x, y);
-            selectedChessman.SetPosition(x, y);
-            selectedChessman.useMove();
-            Chessmans[x, y] = selectedChessman;
+                // legal move
+                Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
+                selectedChessman.transform.position = GetTileCenter(x, y);
+                selectedChessman.SetPosition(x, y);
+                selectedChessman.useMove();
+                Chessmans[x, y] = selectedChessman;
+            }
         }
 
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
