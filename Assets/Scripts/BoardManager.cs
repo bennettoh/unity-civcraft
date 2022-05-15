@@ -80,7 +80,6 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
-            // Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChessman == null)
@@ -115,11 +114,10 @@ public class BoardManager : MonoBehaviour
     private void SelectChessman(int x, int y)
     {
 
-        Debug.Log(x + " " + y);
         Chessman currentUnit = Chessmans[x, y];
-        if (currentUnit == null) // check if a chessman exists on the tile
+        if (currentUnit == null)
         {
-            GameManager.Instance.intent = "tile";
+            GameManager.Instance.intent = "";
             return;
         }
         else
@@ -183,6 +181,7 @@ public class BoardManager : MonoBehaviour
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
         BoardHighlights.Instance.HideHighlights();
         selectedChessman = null; // illegal move de-selects the piece
+        Deselect();
     }
 
     private void UpdateSelection()
@@ -305,5 +304,6 @@ public class BoardManager : MonoBehaviour
         Debug.Log("reset");
         this.selectionX = -1;
         this.selectionY = -1;
+        GameManager.Instance.intent = "";
     }
 }

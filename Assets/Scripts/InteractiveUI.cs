@@ -1,14 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractiveUI : MonoBehaviour
 {
     [SerializeField] GameObject BuildButton;
+    [SerializeField] Text textRef;
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.intent == "tile")
+        bool shouldMove = GameManager.Instance.intent == "move";
+        bool shouldBuild = GameManager.Instance.intent == "build";
+
+        if (shouldMove || shouldBuild)
         {
+            textRef.text = shouldMove ? "Build" : "Move";
             setVisibility(true);
         }
         else

@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    public void ToggleIntent()
+    {
+        intent = intent == "build" ? "move" : "build";
+    }
+
     public void endTurn()
     {
         isWhiteTurn = !isWhiteTurn;
