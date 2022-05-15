@@ -153,7 +153,6 @@ public class BoardManager : MonoBehaviour
             else if (GameManager.Instance.intent == "build")
             {
                 Build(selectedChessman);
-                selectedChessman.useMove();
             }
             else
             {
