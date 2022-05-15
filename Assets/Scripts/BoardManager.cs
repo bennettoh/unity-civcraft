@@ -148,12 +148,11 @@ public class BoardManager : MonoBehaviour
         {
             if (GameManager.Instance.intent == "spawn")
             {
-                Spawn();
-                selectedChessman.useMove();
+                Spawn(selectedChessman);
             }
             else if (GameManager.Instance.intent == "build")
             {
-                Build();
+                Build(selectedChessman);
                 selectedChessman.useMove();
             }
             else
@@ -241,18 +240,20 @@ public class BoardManager : MonoBehaviour
         InitializeBoard(); // re-initialize the board state
     }
 
-    public void Build()
+    public void Build(Chessman unit)
     {
         GameManager.Instance.intent = "";
         if (isWhiteTurn && GameManager.Instance.whiteResource >= BASE_COST)
         {
             GameManager.Instance.whiteResource -= BASE_COST;
             SpawnChessman(WHITE_BASE_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else if (!isWhiteTurn && GameManager.Instance.blackResource >= BASE_COST)
         {
             GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else
         {
@@ -262,18 +263,20 @@ public class BoardManager : MonoBehaviour
         // not important to Deselect, since buildings can't move
     }
 
-    public void Spawn()
+    public void Spawn(Chessman unit)
     {
         GameManager.Instance.intent = "";
         if (isWhiteTurn && GameManager.Instance.whiteResource >= UNIT_COST)
         {
             GameManager.Instance.whiteResource -= UNIT_COST;
             SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else if (!isWhiteTurn && GameManager.Instance.blackResource >= UNIT_COST)
         {
             GameManager.Instance.blackResource -= UNIT_COST;
             SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else
         {
