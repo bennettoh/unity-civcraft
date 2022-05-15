@@ -113,20 +113,12 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
-
         Chessman currentUnit = Chessmans[x, y];
-        if (currentUnit == null)
-        {
-            GameManager.Instance.intent = "";
-            return;
-        }
-        else
-        {
-            GameManager.Instance.intent = currentUnit.moveType;
-        }
-
-        if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
-            return;
+        GameManager.Instance.intent = "";
+        if (currentUnit == null) return; // no unit
+        if (currentUnit.getMoves() < 1) return; // unit has no moves left
+        if (currentUnit.isWhite != isWhiteTurn) return; // enemy unit
+        GameManager.Instance.intent = currentUnit.moveType;
 
         bool hasAtLeastOneMove = false;
         allowedMoves = Chessmans[x, y].PossibleMove();
@@ -140,7 +132,7 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
-        if (!hasAtLeastOneMove)
+        if (!hasAtLeastOneMove || currentUnit.getMoves() < 1)
             return;
 
         selectedChessman = Chessmans[x, y]; // if all tests pass, chessman at the location gets added to the selection
@@ -157,6 +149,12 @@ public class BoardManager : MonoBehaviour
             if (GameManager.Instance.intent == "spawn")
             {
                 Spawn();
+                selectedChessman.useMove();
+            }
+            else if (GameManager.Instance.intent == "build")
+            {
+                Build();
+                selectedChessman.useMove();
             }
             else
             {
@@ -196,6 +194,10 @@ public class BoardManager : MonoBehaviour
             // remove decimal
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
+        }
+        else {
+            selectionX = -1;
+            selectionY = -1;
         }
     }
 

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  builds: 1
   production: 0
   moveType: move
 --- !u!1 &7223786202670337737

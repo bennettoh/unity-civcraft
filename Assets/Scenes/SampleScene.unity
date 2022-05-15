@@ -927,8 +927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6be604cc90af64e9361ea2346535f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnButton: {fileID: 0}
   BuildButton: {fileID: 1295697292}
+  textRef: {fileID: 1929286994}
 --- !u!1 &1268705704
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +974,8 @@ MonoBehaviour:
   - {fileID: 6879676887946095762, guid: ff526b6f0f2cdae45ba41ee48c402cb2, type: 3}
   selectedMat: {fileID: 2100000, guid: 372b45ca3d4ce3b4791062a73beadc6c, type: 2}
   isWhiteTurn: 1
+  whiteBaseExists: 0
+  blackBaseExists: 0
 --- !u!4 &1268705706
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,9 +1090,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1268705705}
-        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: Build
+      - m_Target: {fileID: 2008750711}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ToggleIntent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1477,7 +1479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Build
+  m_Text: '- set by InteractiveUI script -'
 --- !u!222 &1929286995
 CanvasRenderer:
   m_ObjectHideFlags: 0
