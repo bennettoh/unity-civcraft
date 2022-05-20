@@ -80,7 +80,6 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             UpdateSelection();
-            // Debug.Log(GameManager.Instance.intent + " " + selectionX + " " + selectionY);
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChessman == null)
@@ -114,21 +113,12 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
-
-        Debug.Log(x + " " + y);
         Chessman currentUnit = Chessmans[x, y];
-        if (currentUnit == null) // check if a chessman exists on the tile
-        {
-            GameManager.Instance.intent = "tile";
-            return;
-        }
-        else
-        {
-            GameManager.Instance.intent = currentUnit.moveType;
-        }
-
-        if (Chessmans[x, y].isWhite != isWhiteTurn) // out of turn
-            return;
+        GameManager.Instance.intent = "";
+        if (currentUnit == null) return; // no unit
+        if (currentUnit.getMoves() < 1) return; // unit has no moves left
+        if (currentUnit.isWhite != isWhiteTurn) return; // enemy unit
+        GameManager.Instance.intent = currentUnit.moveType;
 
         bool hasAtLeastOneMove = false;
         allowedMoves = Chessmans[x, y].PossibleMove();
@@ -142,7 +132,7 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
-        if (!hasAtLeastOneMove)
+        if (!hasAtLeastOneMove || currentUnit.getMoves() < 1)
             return;
 
         selectedChessman = Chessmans[x, y]; // if all tests pass, chessman at the location gets added to the selection
@@ -158,7 +148,11 @@ public class BoardManager : MonoBehaviour
         {
             if (GameManager.Instance.intent == "spawn")
             {
-                Spawn();
+                Spawn(selectedChessman);
+            }
+            else if (GameManager.Instance.intent == "build")
+            {
+                Build(selectedChessman);
             }
             else
             {
@@ -183,6 +177,7 @@ public class BoardManager : MonoBehaviour
         selectedChessman.GetComponentInChildren<MeshRenderer>().material = previousMat;
         BoardHighlights.Instance.HideHighlights();
         selectedChessman = null; // illegal move de-selects the piece
+        Deselect();
     }
 
     private void UpdateSelection()
@@ -197,6 +192,10 @@ public class BoardManager : MonoBehaviour
             // remove decimal
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
+        }
+        else {
+            selectionX = -1;
+            selectionY = -1;
         }
     }
 
@@ -240,18 +239,20 @@ public class BoardManager : MonoBehaviour
         InitializeBoard(); // re-initialize the board state
     }
 
-    public void Build()
+    public void Build(Chessman unit)
     {
         GameManager.Instance.intent = "";
         if (isWhiteTurn && GameManager.Instance.whiteResource >= BASE_COST)
         {
             GameManager.Instance.whiteResource -= BASE_COST;
             SpawnChessman(WHITE_BASE_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else if (!isWhiteTurn && GameManager.Instance.blackResource >= BASE_COST)
         {
             GameManager.Instance.blackResource -= BASE_COST;
             SpawnChessman(BLACK_BASE_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else
         {
@@ -261,18 +262,20 @@ public class BoardManager : MonoBehaviour
         // not important to Deselect, since buildings can't move
     }
 
-    public void Spawn()
+    public void Spawn(Chessman unit)
     {
         GameManager.Instance.intent = "";
         if (isWhiteTurn && GameManager.Instance.whiteResource >= UNIT_COST)
         {
             GameManager.Instance.whiteResource -= UNIT_COST;
             SpawnChessman(WHITE_UNIT_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else if (!isWhiteTurn && GameManager.Instance.blackResource >= UNIT_COST)
         {
             GameManager.Instance.blackResource -= UNIT_COST;
             SpawnChessman(BLACK_UNIT_ID, selectionX, selectionY);
+            unit.useMove();
         }
         else
         {
@@ -305,5 +308,6 @@ public class BoardManager : MonoBehaviour
         Debug.Log("reset");
         this.selectionX = -1;
         this.selectionY = -1;
+        GameManager.Instance.intent = "";
     }
 }

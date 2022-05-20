@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class King : Chessman
 {
-    public King()
-    {
-        this.moveType = "spawn";
-    }
-
     public override bool[,] PossibleMove()
     {
         bool[,] moveArr = new bool[8, 8];
